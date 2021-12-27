@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      :root
+      {
+        --text-light: hsl(255, 36%, 17%);
+        --bkg1-dark: hsl(218, 15.4%, 10.2%);
+      }
+
+      @media(prefers-color-scheme: dark)
+      {
+        :root
+        {
+          --text: var(--text-dark);
+          --bkg1: var(--bkg1-dark);
+        }
+      }
+
+      @media(prefers-color-scheme: light)
+      {
+        :root {
+          --text: var(--text-light);
+          --bkg1: var(--bkg1-light);
+        }
+      }
+
+      [color-scheme="dark"]
+      {
+        --text: var(--text-dark);
+        --bkg1: var(--bkg1-dark);
+      }
+
+      [color-scheme="light"]
+      {
+        --text: var(--text-light);
+        --bkg1: var(--bkg1-light);
+      }
+
+      body
+      {
+        color: var(--text);
+        background-color: var(--bkg1);
+      }
+    </style>
+  </head>
+  <body>
+    <select id="themeChanger" name="theme">
+        <option value="auto">Auto</option>
+        <option value="dark">Dark</option>
+        <option value="light">Light</option>
+      </select>
+    </body>
+</html>
+<script>
+  if (!localStorage.getItem("NOMiTest.theme"))
+  {
+    localStorage.setItem("NOMiTest.theme", "dark");
+  }
+
+  function loadTheme(theme)
+  {
+    document.querySelector(":root").setAttribute("color-scheme", theme);
+    document.querySelector("#themeChanger").value = theme;
+  }
+
+  function setTheme(theme)
+  {
+    localStorage.setItem("NOMiTest.theme", theme);
+    loadTheme(theme);
+  }
+
+  function getCurrentTheme()
+  {
+    return localStorage.getItem("NOMiTest.theme");
+  }
+
+  window.addEventListener("DOMContentLoaded", () => loadTheme(getCurrentTheme()));
+
+  let themeChanger = document.querySelector("#themeChanger");
+  themeChanger.addEventListener("change", () => setTheme(themeChanger.value));
+</script>
